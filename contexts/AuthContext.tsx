@@ -8,6 +8,14 @@ interface User {
   mobile: string;
   balance: number;
   createdAt: string;
+  // Bank Details
+  accountHolderName?: string;
+  bankName?: string;
+  accountNumber?: string;
+  ifscCode?: string;
+  paytmNo?: string;
+  phonePeNo?: string;
+  googlePayNo?: string;
 }
 
 interface AuthContextType {
@@ -18,6 +26,7 @@ interface AuthContextType {
   register: (name: string, mobile: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   checkUserExists: (mobile: string) => Promise<{ exists: boolean; isActive: boolean }>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -157,6 +166,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken(null);
   };
 
+  const refreshUser = async () => {
+    if (!token) return;
+    
+    try {
+      const response = await fetch('/api/auth/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+      }
+    } catch (error) {
+      console.error('Failed to refresh user data:', error);
+    }
+  };
+
   const value = {
     user,
     token,
@@ -165,6 +193,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     checkUserExists,
+    refreshUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

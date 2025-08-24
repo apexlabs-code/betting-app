@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import BottomTabs from './BottomTabs';
 import GameRates from './GameRates';
 import MyBids from './MyBids';
+import Funds from './wallet/Funds';
 import Image from 'next/image';
 
 interface MobileLayoutProps {
@@ -41,12 +42,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
       case 'Bids':
         return <MyBids onBack={handleBackToHome} />;
       case 'Funds':
-        return (
-          <div className="p-4 text-center">
-            <h2 className="text-xl font-semibold">Funds</h2>
-            <p className="text-gray-600 mt-2">Manage your wallet and transactions</p>
-          </div>
-        );
+        return <Funds onBack={handleBackToHome} />;
       case 'Support':
         return (
           <div className="p-4 text-center">
@@ -62,7 +58,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Render current screen */}
-      {currentScreen === 'GameRate' || currentScreen === 'Bids' ? (
+      {currentScreen === 'GameRate' || currentScreen === 'Bids' || currentScreen === 'Funds' ? (
         renderCurrentScreen()
       ) : (
         <>

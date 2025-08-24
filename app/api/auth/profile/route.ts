@@ -15,7 +15,14 @@ async function handler(request: NextRequest) {
         mobile: true,
         balance: true,
         isActive: true,
-        createdAt: true
+        createdAt: true,
+        accountHolderName: true,
+        bankName: true,
+        accountNumber: true,
+        ifscCode: true,
+        paytmNo: true,
+        phonePeNo: true,
+        googlePayNo: true
       }
     });
 

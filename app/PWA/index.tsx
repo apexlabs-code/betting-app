@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import MobileLayout from '../../components/MobileLayout';
 import AuthScreen from '../../components/auth/AuthScreen';

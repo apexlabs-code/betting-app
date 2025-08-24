@@ -15,18 +15,28 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  mobile    String   @unique
-  password  String
-  balance   Float    @default(0.0)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  mobile          String   @unique
+  password        String
+  balance         Float    @default(0.0)
+  isActive        Boolean  @default(true)
+  
+  // Bank Details
+  accountHolderName  String?
+  bankName          String?
+  accountNumber     String?
+  ifscCode          String?
+  paytmNo           String?
+  phonePeNo         String?
+  googlePayNo       String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   // Relations
-  bids      Bid[]
-  transactions Transaction[]
+  bids            Bid[]
+  transactions    Transaction[]
 
   @@map("users")
 }
@@ -52,10 +62,12 @@ model Bid {
 model Transaction {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  type      String   // deposit, withdraw, win, loss
+  type      String   // deposit, withdraw, deposit_request, withdraw_request
   amount    Float
-  status    String   @default("completed") // pending, completed, failed
+  status    String   @default("pending") // pending, completed, failed, cancelled
   reference String?  // reference number for external transactions
+  upiId     String?  // UPI ID for payments
+  remarks   String?  // admin remarks
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
