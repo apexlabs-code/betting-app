@@ -8,6 +8,7 @@ import PushNotificationManager from "@/lib/pushNotificationManager"
 import toast, { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PWA from "./PWA";
+import LandingPage from "./landingPage";
 
 export default function Page() {
   const [isStandalone, setIsStandalone] = useState(false);
@@ -40,12 +41,20 @@ export default function Page() {
   }, []);
 
   return (
-    <AuthProvider>
+    <>
+      {isStandalone ? (
+        <AuthProvider>
       <div>
         <InstallPrompt />
         <Toaster position="top-center" />
         <PWA />
       </div>
-    </AuthProvider>
+    </AuthProvider> 
+      ) : (
+        <>
+        <LandingPage/>
+        </>
+      )}
+  </>
   );
 }
