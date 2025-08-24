@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Menu, Wallet } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from './Sidebar';
 import BottomTabs from './BottomTabs';
 import GameRates from './GameRates';
@@ -15,6 +16,7 @@ interface MobileLayoutProps {
 const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentScreen, setCurrentScreen] = useState('Home');
+  const { user } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -85,7 +87,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
               
               <div className="flex text-sm text-gray-600 items-center space-x-2">
                 <Wallet />
-                <span className="">₹ 5.0</span>
+                <span className="">₹ {user?.balance || '0.0'}</span>
               </div>
             </div>
           </header>

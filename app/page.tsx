@@ -6,6 +6,7 @@ import { onMessage } from "firebase/messaging";
 import InstallPrompt from "@/components/installPrompt"
 import PushNotificationManager from "@/lib/pushNotificationManager"
 import toast, { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/contexts/AuthContext";
 import PWA from "./PWA";
 
 export default function Page() {
@@ -39,17 +40,12 @@ export default function Page() {
   }, []);
 
   return (
-    <>
+    <AuthProvider>
       <div>
         <InstallPrompt />
-        {/* <PushNotificationManager /> */}
-        
-        {isStandalone ? (
-          <PWA />
-        ) : (
-          <PWA />
-        )}
+        <Toaster position="top-center" />
+        <PWA />
       </div>
-    </>
+    </AuthProvider>
   );
 }

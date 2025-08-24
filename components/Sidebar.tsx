@@ -17,6 +17,7 @@ import {
   X,
   User
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,6 +26,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate }) => {
+  const { user, logout } = useAuth();
+
   const sidebarItems = [
     { icon: Home, label: 'Home', href: '/home' },
     { icon: ClipboardList, label: 'My Bids', href: '/my-bids' },
@@ -42,6 +45,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate }) => {
 
   const handleItemClick = (label: string, href: string) => {
     console.log(`Navigating to ${label}: ${href}`);
+    
+    // Handle logout
+    if (label === 'Logout') {
+      logout();
+      onClose();
+      return;
+    }
     
     // Handle special navigation cases
     if (label === 'Game Rate' && onNavigate) {
@@ -81,8 +91,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate }) => {
               <User className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800">rishab</h3>
-              <p className="text-sm text-gray-600">8817775239</p>
+              <h3 className="font-semibold text-gray-800">{user?.name || 'User'}</h3>
+              <p className="text-sm text-gray-600">{user?.mobile || '0000000000'}</p>
             </div>
           </div>
           <button 

@@ -1,11 +1,15 @@
 "use client";
 
 import React from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import MobileLayout from '../../components/MobileLayout';
-import { Play, Bell } from 'lucide-react';
+import AuthScreen from '../../components/auth/AuthScreen';
+import { Play } from 'lucide-react';
 import Image from 'next/image';
 
 const PWA = () => {
+  const { user, isLoading } = useAuth();
+
   const games = [
     {
       name: 'RADHA MORNING',
@@ -37,9 +41,36 @@ const PWA = () => {
     }
   ];
 
+  // Show loading screen while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse">
+            <span className="text-white font-bold text-xl">S777</span>
+          </div>
+          <p className="text-gray-600">Loading Sara777...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication screen if user is not logged in
+  if (!user) {
+    return <AuthScreen />;
+  }
+
+  // Show main app if user is authenticated
   return (
     <MobileLayout>
       <div className="p-4 space-y-4">
+        {/* Welcome Message */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <p className="text-blue-600 text-sm text-center">
+            Welcome back, <strong>{user.name}</strong>! Balance: ₹{user.balance}
+          </p>
+        </div>
+
         {/* Notice Banner */}
         <div className="bg-red-50 border border-red-200 rounded-lg p-3">
           <p className="text-red-600 text-sm text-center">
@@ -70,23 +101,23 @@ const PWA = () => {
         {/* Contact Numbers */}
         <div className="flex justify-center space-x-4">
           <div className="flex items-center space-x-2 bg-green-100 px-3 py-2 rounded-lg">
-            <div >
+            <div>
               <Image
-              alt='whatsapp'
-              src='/whatsapp.png'
-              width={24}
-              height={24}
+                alt='whatsapp'
+                src='/whatsapp.png'
+                width={24}
+                height={24}
               />
             </div>
             <span className="text-green-700 text-sm font-medium">6375017868</span>
           </div>
           <div className="flex items-center space-x-2 bg-green-100 px-3 py-2 rounded-lg">
-            <div >
+            <div>
               <Image
-              alt='whatsapp'
-              src='/whatsapp.png'
-              width={24}
-              height={24}
+                alt='whatsapp'
+                src='/whatsapp.png'
+                width={24}
+                height={24}
               />
             </div>
             <span className="text-green-700 text-sm font-medium">6375017868</span>

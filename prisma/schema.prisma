@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  mobile    String   @unique
+  password  String
+  balance   Float    @default(0.0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bids      Bid[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Bid {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  gameType  String
+  bidType   String   // Single, Jodi, Single Pana, etc.
+  number    String
+  amount    Float
+  status    String   @default("pending") // pending, won, lost
+  gameDate  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("bids")
+}
+
+model Transaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  type      String   // deposit, withdraw, win, loss
+  amount    Float
+  status    String   @default("completed") // pending, completed, failed
+  reference String?  // reference number for external transactions
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("transactions")
+}
