@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import Login from './Login';
 import Register from './Register';
+import Image from 'next/image';
 
 const AuthScreen: React.FC = () => {
   const [authMode, setAuthMode] = useState<'initial' | 'login' | 'register'>('initial');
@@ -11,6 +12,7 @@ const AuthScreen: React.FC = () => {
   const [isCheckingUser, setIsCheckingUser] = useState(false);
 
   const { checkUserExists } = useAuth();
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || 'DPBOSS';
 
   const handleMobileSubmit = async (mobileNumber: string) => {
     if (!/^\d{10}$/.test(mobileNumber)) {
@@ -59,7 +61,7 @@ const AuthScreen: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-1 h-8 bg-orange-500 rounded"></div>
-              <h1 className="text-xl font-bold text-gray-800">WELCOME TO SARA777</h1>
+              <h1 className="text-xl font-bold text-gray-800">WELCOME TO {appName}</h1>
             </div>
           </div>
         </div>
@@ -68,10 +70,26 @@ const AuthScreen: React.FC = () => {
         <div className="flex-1 flex flex-col justify-center p-6">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center mb-2 mx-auto">
-              <span className="text-white font-bold text-xl">S777</span>
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg border-4 border-orange-200">
+              <Image 
+                src="/logo.png" 
+                alt={appName} 
+                width={80} 
+                height={80}
+                className="rounded-full object-cover"
+                onError={(e) => {
+                  // Fallback to a clean icon if image fails to load
+                  const target = e.currentTarget;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+              <div className="text-orange-500 font-bold text-2xl hidden items-center justify-center w-full h-full">
+                {appName.charAt(0)}
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">Sara777</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">{appName}</h2>
           </div>
 
           {/* Mobile Entry Form */}
