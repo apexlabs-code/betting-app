@@ -4,11 +4,19 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import MobileLayout from '../../components/MobileLayout';
 import AuthScreen from '../../components/auth/AuthScreen';
+import DepositFunds from '../../components/wallet/DepositFunds';
+import WithdrawFund from '../../components/wallet/WithdrawFund';
+import BankDetails from '../../components/wallet/BankDetails';
+import WithdrawHistory from '../../components/wallet/WithdrawHistory';
+import GameScreen from '../../components/GameScreen';
 import { Play } from 'lucide-react';
 import Image from 'next/image';
 
 const PWA = () => {
   const { user, isLoading } = useAuth();
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'deposit' | 'withdraw' | 'bankDetails' | 'withdrawHistory' | 'game'>('home');
+  const [selectedGame, setSelectedGame] = useState<any>(null);
+  const appName = process.env.NEXT_PUBLIC_APP_NAME || 'DPBOSS';
 
   const games = [
     {
@@ -47,9 +55,9 @@ const PWA = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse">
-            <span className="text-white font-bold text-xl">S777</span>
+            <span className="text-white font-bold text-xl">{appName.charAt(0)}</span>
           </div>
-          <p className="text-gray-600">Loading Sara777...</p>
+          <p className="text-gray-600">Loading {appName}...</p>
         </div>
       </div>
     );
@@ -58,6 +66,50 @@ const PWA = () => {
   // Show authentication screen if user is not logged in
   if (!user) {
     return <AuthScreen />;
+  }
+
+  // Navigation handlers
+  const handleNavigate = (screen: 'home' | 'deposit' | 'withdraw' | 'bankDetails' | 'withdrawHistory' | 'game') => {
+    setCurrentScreen(screen);
+  };
+
+  const handleGameSelect = (game: any) => {
+    setSelectedGame(game);
+    setCurrentScreen('game');
+  };
+
+  const handleBack = () => {
+    setCurrentScreen('home');
+    setSelectedGame(null);
+  };
+
+  // Show different screens based on current state
+  if (currentScreen === 'deposit') {
+    return <DepositFunds onBack={handleBack} />;
+  }
+
+  if (currentScreen === 'withdraw') {
+    return <WithdrawFund onBack={handleBack} onNavigate={handleNavigate} />;
+  }
+
+  if (currentScreen === 'bankDetails') {
+    return <BankDetails onBack={handleBack} />;
+  }
+
+  if (currentScreen === 'withdrawHistory') {
+    return <WithdrawHistory onBack={handleBack} />;
+  }
+
+  if (currentScreen === 'game' && selectedGame) {
+    return (
+      <GameScreen
+        onBack={handleBack}
+        gameName={selectedGame.name}
+        gameNumber={selectedGame.number}
+        openTime={selectedGame.openTime}
+        closeTime={selectedGame.closeTime}
+      />
+    );
   }
 
   // Show main app if user is authenticated
@@ -88,11 +140,17 @@ const PWA = () => {
             <span>♠</span>
             <span>KING JACKPOT</span>
           </button>
-          <button className="bg-green-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2">
+          <button 
+            onClick={() => handleNavigate('deposit')}
+            className="bg-green-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-green-700 transition-colors"
+          >
             <span>💳</span>
             <span>DEPOSIT FUND</span>
           </button>
-          <button className="bg-purple-500 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2">
+          <button 
+            onClick={() => handleNavigate('withdraw')}
+            className="bg-purple-500 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-purple-600 transition-colors"
+          >
             <span>₹</span>
             <span>WITHDRAW</span>
           </button>
@@ -145,7 +203,10 @@ const PWA = () => {
                 </div>
                 <div className="flex flex-col items-end space-y-2">
                   <span className="text-red-500 text-sm font-medium">{game.status}</span>
-                  <button className="bg-orange-500 text-white p-3 rounded-full hover:bg-orange-600 transition-colors">
+                  <button 
+                    onClick={() => handleGameSelect(game)}
+                    className="bg-orange-500 text-white p-3 rounded-full hover:bg-orange-600 transition-colors"
+                  >
                     <Play className="w-5 h-5" />
                   </button>
                   <span className="text-xs text-gray-500">Play game</span>

@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 interface WithdrawFundProps {
   onBack: () => void;
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: 'home' | 'deposit' | 'withdraw' | 'bankDetails' | 'withdrawHistory' | 'game') => void;
 }
 
 const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
@@ -42,7 +42,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
 
     if (!hasBankDetails) {
       alert('Please add your bank details first');
-      onNavigate('BankDetails');
+      onNavigate('bankDetails');
       return;
     }
 
@@ -84,7 +84,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
   const selectWithdrawalMethod = () => {
     if (!hasBankDetails) {
       alert('Please add your bank details first');
-      onNavigate('BankDetails');
+      onNavigate('bankDetails');
       return;
     }
     setShowBankSelection(true);
@@ -231,7 +231,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
           <div className="text-center">
             <p className="text-red-500 font-medium mb-4">No Linked Withdraw Method Found</p>
             <button
-              onClick={() => onNavigate('BankDetails')}
+              onClick={() => onNavigate('bankDetails')}
               className="bg-orange-500 text-white px-6 py-2 rounded-lg font-semibold"
             >
               Add Bank
@@ -259,7 +259,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
 
         {/* View History Button */}
         <button
-          onClick={() => onNavigate('WithdrawHistory')}
+          onClick={() => onNavigate('withdrawHistory')}
           className="w-full bg-orange-500 text-white py-4 rounded-lg font-semibold"
         >
           VIEW WITHDRAW HISTORY
