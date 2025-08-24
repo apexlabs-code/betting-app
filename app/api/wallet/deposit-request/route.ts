@@ -5,8 +5,35 @@ import { prisma } from '@/lib/prisma';
 async function handler(request: NextRequest) {
   try {
     const user = getAuthUser(request);
-    const { amount, upiId, reference } = await request.json();
+    const { amount, upiId, reference, transactionId, status } = await request.json();
 
+    // Check if this is a confirmation request (updating existing transaction)
+    if (transactionId) {
+      // Update existing transaction with confirmation
+      const transaction = await prisma.transaction.update({
+        where: { 
+          id: transactionId,
+          userId: user.userId // Ensure user can only update their own transactions
+        },
+        data: {
+          status: status || 'submitted',
+          reference: reference || null,
+          remarks: 'Payment confirmation submitted by user'
+        }
+      });
+
+      return NextResponse.json({
+        message: 'Payment confirmation submitted successfully',
+        transaction: {
+          id: transaction.id,
+          amount: transaction.amount,
+          status: transaction.status,
+          createdAt: transaction.createdAt
+        }
+      });
+    }
+
+    // Original deposit request creation logic
     // Validation
     if (!amount || amount < 200 || amount > 50000) {
       return NextResponse.json(

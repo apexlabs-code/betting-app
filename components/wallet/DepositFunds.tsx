@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Phone, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import WalletChip from '@/components/ui/WalletChip';
 import Image from 'next/image';
 
 interface DepositFundsProps {
@@ -34,7 +35,7 @@ const DepositFunds: React.FC<DepositFundsProps> = ({ onBack }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify({
           amount: amountNum,
@@ -66,7 +67,7 @@ const DepositFunds: React.FC<DepositFundsProps> = ({ onBack }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify({
           transactionId,
@@ -74,7 +75,7 @@ const DepositFunds: React.FC<DepositFundsProps> = ({ onBack }) => {
           reference: `DEP_${Date.now()}`
         })
       });
-
+console.log("response : ",  response)
       if (response.ok) {
         alert('Payment confirmation submitted! Your deposit will be processed within 24 hours.');
         onBack();
@@ -198,9 +199,7 @@ const DepositFunds: React.FC<DepositFundsProps> = ({ onBack }) => {
             <ArrowLeft className="w-6 h-6 text-gray-600" />
           </button>
           <h1 className="text-lg font-semibold text-gray-800">DEPOSIT FUNDS</h1>
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">5</span>
-          </div>
+          <WalletChip size="md" />
         </div>
       </div>
 

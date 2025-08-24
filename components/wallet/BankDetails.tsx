@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Building } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import WalletChip from '@/components/ui/WalletChip';
 
 interface BankDetailsProps {
   onBack: () => void;
@@ -52,7 +53,7 @@ const BankDetails: React.FC<BankDetailsProps> = ({ onBack }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify(formData)
       });
@@ -86,9 +87,7 @@ const BankDetails: React.FC<BankDetailsProps> = ({ onBack }) => {
             <ArrowLeft className="w-6 h-6 text-gray-600" />
           </button>
           <h1 className="text-lg font-semibold text-gray-800">ADD BANK DETAILS</h1>
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">5</span>
-          </div>
+          <WalletChip size="md" />
         </div>
       </div>
 

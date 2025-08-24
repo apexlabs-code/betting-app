@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import WalletChip from '@/components/ui/WalletChip';
 import Image from 'next/image';
 
 interface WithdrawFundProps {
@@ -51,7 +52,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify({
           amount: amountNum
@@ -102,9 +103,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
               <ArrowLeft className="w-6 h-6 text-gray-600" />
             </button>
             <h1 className="text-lg font-semibold text-gray-800">WITHDRAW FUND</h1>
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-sm font-bold">5</span>
-            </div>
+            <WalletChip size="md" />
           </div>
         </div>
 
@@ -170,9 +169,7 @@ const WithdrawFund: React.FC<WithdrawFundProps> = ({ onBack, onNavigate }) => {
             <ArrowLeft className="w-6 h-6 text-gray-600" />
           </button>
           <h1 className="text-lg font-semibold text-gray-800">WITHDRAW FUND</h1>
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">5</span>
-          </div>
+          <WalletChip size="md" />
         </div>
       </div>
 

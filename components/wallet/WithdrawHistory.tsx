@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Calendar } from 'lucide-react';
+import WalletChip from '@/components/ui/WalletChip';
 
 interface WithdrawHistoryProps {
   onBack: () => void;
@@ -32,7 +33,7 @@ const WithdrawHistory: React.FC<WithdrawHistoryProps> = ({ onBack }) => {
     try {
       const response = await fetch(`/api/wallet/transactions?type=withdraw&page=${pageNum}&limit=10`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         }
       });
 
@@ -111,9 +112,7 @@ const WithdrawHistory: React.FC<WithdrawHistoryProps> = ({ onBack }) => {
             <ArrowLeft className="w-6 h-6 text-gray-600" />
           </button>
           <h1 className="text-lg font-semibold text-gray-800">WITHDRAWAL HISTORY</h1>
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">5</span>
-          </div>
+          <WalletChip size="md" />
         </div>
       </div>
 

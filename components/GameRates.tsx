@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowLeft, Menu } from 'lucide-react';
+import WalletChip from '@/components/ui/WalletChip';
 
 interface GameRatesProps {
   onBack?: () => void;
@@ -33,10 +34,7 @@ const GameRates: React.FC<GameRatesProps> = ({ onBack }) => {
             <h1 className="text-lg font-semibold text-gray-800">GAME RATES</h1>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Menu className="w-6 h-6 text-gray-700" />
-            <span className="text-sm text-gray-600">5</span>
-          </div>
+            <WalletChip size="sm" />
         </div>
       </header>
 

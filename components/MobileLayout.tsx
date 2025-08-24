@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Menu, Wallet } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from './Sidebar';
 import BottomTabs from './BottomTabs';
 import GameRates from './GameRates';
 import MyBids from './MyBids';
 import Funds from './wallet/Funds';
+import WalletChip from './ui/WalletChip';
 import Image from 'next/image';
 
 interface MobileLayoutProps {
@@ -81,10 +82,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
               />
               </div>
               
-              <div className="flex text-sm text-gray-600 items-center space-x-2">
-                <Wallet />
-                <span className="">₹ {user?.balance || '0.0'}</span>
-              </div>
+              <WalletChip size="sm" />
             </div>
           </header>
 

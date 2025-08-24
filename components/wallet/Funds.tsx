@@ -46,7 +46,7 @@ const Funds: React.FC<FundsProps> = ({ onBack }) => {
     }
   };
 
-  return renderScreen();
+  return <div className="mb-20">{renderScreen()}</div>
 };
 
 export default Funds;

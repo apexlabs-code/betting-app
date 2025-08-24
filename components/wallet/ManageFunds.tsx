@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowLeft, Plus, Minus, Building, Clock, RotateCcw } from 'lucide-react';
+import WalletChip from '@/components/ui/WalletChip';
 
 interface ManageFundsProps {
   onBack: () => void;
@@ -63,9 +64,7 @@ const ManageFunds: React.FC<ManageFundsProps> = ({ onBack, onNavigate }) => {
             <ArrowLeft className="w-6 h-6 text-gray-600" />
           </button>
           <h1 className="text-lg font-semibold text-gray-800">MANAGE FUNDS</h1>
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">5</span>
-          </div>
+          <WalletChip size="md" />
         </div>
       </div>
 
