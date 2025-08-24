@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { generateToken, messaging } from "@/notification/firebase";
 import { onMessage } from "firebase/messaging";
-import InstallPrompt from "@/components/installPrompt"
-import PushNotificationManager from "@/lib/pushNotificationManager"
 import toast, { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PWA from "./PWA";
@@ -28,8 +26,9 @@ export default function Page() {
     // Detect standalone mode (PWA)
     if (typeof window !== "undefined") {
       const standalone =
-      //@ts-ignore
-        window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+        // @ts-ignore
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (window.navigator as any).standalone === true;
       setIsStandalone(standalone);
     }
 
@@ -42,19 +41,16 @@ export default function Page() {
 
   return (
     <>
+      <Toaster position="top-center" />
       {isStandalone ? (
+        // If running as PWA
         <AuthProvider>
-      <div>
-        <InstallPrompt />
-        <Toaster position="top-center" />
-        <PWA />
-      </div>
-    </AuthProvider> 
+          <PWA />
+        </AuthProvider>
       ) : (
-        <>
-        <LandingPage/>
-        </>
+        // If running in browser
+        <LandingPage />
       )}
-  </>
+    </>
   );
 }
