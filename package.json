@@ -4,9 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack --no-lint",
+    "build": "prisma generate && next build --turbopack --no-lint",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "vercel-build": "prisma generate && next build --turbopack --no-lint"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",

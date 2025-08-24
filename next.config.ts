@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  serverExternalPackages: ['web-push'],
   images: {
     domains: ['via.placeholder.com'],
     remotePatterns: [
@@ -20,7 +21,9 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['web-push']
+    turbo: {
+      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
