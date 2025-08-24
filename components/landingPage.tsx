@@ -1,4 +1,5 @@
 import React from "react";
+import InstallPrompt from "./installPrompt";
 
 const LandingPage = () => {
   return (
@@ -71,11 +72,7 @@ const LandingPage = () => {
                 width="160"
               />
             </a>
-            <a href="/app/d3boss.apk">
-              <div className="te text-md rounded-md  bg-pink-500  p-3 font-semibold text-white">
-                Download APK
-              </div>
-            </a>
+            <InstallPrompt />
           </div>
           <img
             src="/phone.png"

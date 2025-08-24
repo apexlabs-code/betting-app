@@ -6,7 +6,7 @@ import { onMessage } from "firebase/messaging";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PWA from "./PWA";
-import LandingPage from "./landingPage";
+import LandingPage from "../components/landingPage";
 
 export default function Page() {
   const [isStandalone, setIsStandalone] = useState(false);

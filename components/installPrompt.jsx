@@ -4,21 +4,6 @@
 import { useState, useEffect } from 'react'
 // import { subscribeUser, unsubscribeUser, sendNotification } from './actions'
 
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding)
-    .replace(/\\-/g, '+')
-    .replace(/_/g, '/')
- 
-  const rawData = window.atob(base64)
-  const outputArray = new Uint8Array(rawData.length)
- 
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i)
-  }
-  return outputArray
-}
-
 function InstallPrompt() {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -94,16 +79,13 @@ function InstallPrompt() {
 
   return (
     <>
-      {/* Install Button */}
-      {(isInstallable || isIOS) && (
         <button 
           onClick={() => setShowPopup(true)}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-lg"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-lg"
         >
           <span className="text-2xl">📱</span>
           ऐप इंस्टॉल करें
         </button>
-      )}
 
       {/* Popup/Modal */}
       {showPopup && (
